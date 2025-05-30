@@ -1,11 +1,11 @@
 #include <Wire.h>
 
-int m1i1 = 2;
-int m1i2 = 4;
-int m1e = 15;
-int m2i1 = 18;
-int m2i2 = 19;
-int m2e = 5;  
+int m2i1 = 26;
+int m2i2 = 25;
+int m2e = 27;
+int m1i1 = 12;
+int m1i2 = 14;
+int m1e = 13;  
 
 void setup() {
   pinMode(m1i1, OUTPUT);
