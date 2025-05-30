@@ -15,7 +15,7 @@ int m1e  = 13;
 int SDA_pin = 21;
 int SCL_pin = 22;
 
-const int pwmFreq = 5000;
+const int pwmFreq = 500;
 const int pwmResolution = 8;
 
 MPU6050 mpu(Wire);
