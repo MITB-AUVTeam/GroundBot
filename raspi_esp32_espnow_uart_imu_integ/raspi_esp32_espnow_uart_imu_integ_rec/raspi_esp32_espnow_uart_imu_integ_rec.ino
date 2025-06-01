@@ -28,24 +28,17 @@ void OnDataRecv(const esp_now_recv_info_t *recvInfo, const uint8_t *incomingData
 {
     memcpy(&imuData, incomingData, sizeof(imuData));
 
-    Serial.print("Accel X: ");
-    Serial.print(imuData.ax);
-    Serial.print(" | ");
-    Serial.print("Y: ");
-    Serial.print(imuData.ay);
-    Serial.print(" | ");
-    Serial.print("Z: ");
-    Serial.print(imuData.az);
-    Serial.print(" || ");
-
-    Serial.print("Gyro X: ");
-    Serial.print(imuData.gx);
-    Serial.print(" | ");
-    Serial.print("Y: ");
-    Serial.print(imuData.gy);
-    Serial.print(" | ");
-    Serial.print("Z: ");
-    Serial.println(imuData.gz);
+    Serial1.print(imuData.ax);
+    Serial1.print(" , ");
+    Serial1.print(imuData.ay);
+    Serial1.print(" , ");
+    Serial1.print(imuData.az);
+    Serial1.print(" , ");
+    Serial1.print(imuData.gx);
+    Serial1.print(" , ");
+    Serial1.print(imuData.gy);
+    Serial1.print(" , ");
+    Serial1.println(imuData.gz);
 }
 
 void setup()
