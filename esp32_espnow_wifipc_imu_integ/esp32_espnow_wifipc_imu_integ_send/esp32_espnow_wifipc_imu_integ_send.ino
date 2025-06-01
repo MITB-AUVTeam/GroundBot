@@ -106,6 +106,14 @@ void loop()
     imuData.gy = mpu.getGyroY();
     imuData.gz = mpu.getGyroZ();
 
+    WiFiClient client = server.available();
+    imuData.ax = mpu.getAccX();
+    imuData.ay = mpu.getAccY();
+    imuData.az = mpu.getAccZ();
+    imuData.gx = mpu.getGyroX();
+    imuData.gy = mpu.getGyroY();
+    imuData.gz = mpu.getGyroZ();
+
     client.print(imuData.ax, 3);
     client.print(",");
     client.print(imuData.ay, 3);
