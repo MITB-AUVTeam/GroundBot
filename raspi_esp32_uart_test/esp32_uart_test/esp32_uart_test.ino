@@ -1,12 +1,14 @@
 #include <HardwareSerial.h>
 
-HardwareSerial MySerial(1);
-
 void setup() {
-  MySerial.begin(115200, SERIAL_8N1, 16, 17); // RX=16, TX=17 (change pins as needed)
+  Serial1.begin(9600, SERIAL_8N1, 5, 4);  // RX=16, TX=17
+  Serial.begin(9600);
 }
 
 void loop() {
-  MySerial.println("Hello from ESP32");
-  delay(1000);
+  static int count = 0;
+  Serial.println(count);
+  Serial1.println(count);
+  delay(20);
+  count++;
 }
