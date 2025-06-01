@@ -12,7 +12,7 @@ WiFiServer server(3333);
 
 // REPLACE WITH YOUR RECEIVER MAC Address
 
-uint8_t broadcastAddress[] = {0xfc, 0xf5, 0xc4, 0x31, 0x51, 0x10};
+uint8_t broadcastAddress[] = {0x24, 0x62, 0xab, 0xdd, 0x92, 0x9c};
 
 // Structure example to send data
 // Must match the receiver structure
@@ -134,7 +134,7 @@ void loop()
                 Serial.println("Error sending the data");
             }
             delay(1000);
-            
+
         }
         client.stop();
     }
