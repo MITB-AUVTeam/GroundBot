@@ -34,8 +34,6 @@ void setup()
     Serial1.begin(9600, SERIAL_8N1, 5, 4); // RX=16, TX=17
     Serial.begin(9600);
 
-    unsigned long startMillis = millis(); // time starts at 0
-
     Wire.begin(21, 22); // SDA, SCL for ESP32
 
     byte status = mpu.begin();
@@ -82,17 +80,6 @@ void setup()
 
 void loop()
 {
-    unsigned long elapsedMillis = millis() - startMillis;
-    unsigned long seconds = elapsedMillis / 1000;
-    unsigned long minutes = seconds / 60;
-    unsigned long hours = minutes / 60;
-
-    seconds %= 60;
-    minutes %= 60;
-
-    char buffer[9];
-    sprintf(buffer, "%02lu:%02lu:%02lu", hours, minutes, seconds);
-    Serial1.println(buffer);
 
     mpu.update();
 
