@@ -14,4 +14,4 @@ while True:
             ax, ay, az, gx, gy, gz = [float(v) for v in values]
             print(f"ax={ax}, ay={ay}, az={az}, gx={gx}, gy={gy}, gz={gz}")
         else:
-            print(f"Incomplete data received: {data}")
+            print(f"{data}")

@@ -133,7 +133,7 @@ void loop()
             {
                 Serial.println("Error sending the data");
             }
-            delay(1000);
+            delay(200);
 
         }
         client.stop();
