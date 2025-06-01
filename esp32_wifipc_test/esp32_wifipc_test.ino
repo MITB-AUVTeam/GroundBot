@@ -9,7 +9,15 @@ float values[6] = {1.1, 2.2, 3.3, 4.4, 5.5, 6.6};
 void setup() {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) delay(500);
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nConnected to WiFi");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
+
   server.begin();
 }
 
