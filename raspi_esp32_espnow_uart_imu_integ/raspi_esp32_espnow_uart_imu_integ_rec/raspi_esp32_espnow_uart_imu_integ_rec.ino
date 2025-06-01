@@ -64,34 +64,17 @@ void setup()
 
     // Register updated callback
     esp_now_register_recv_cb(OnDataRecv);
-}
 
-void loop()
-{
+    delay(2000);
+
     digitalWrite(m2i1, LOW);
     digitalWrite(m2i2, HIGH);
     digitalWrite(m1i1, LOW);
     digitalWrite(m1i2, HIGH);
 
-    // Run motors at full speed (255 max for 8-bit resolution)
+    ledcWrite(m1e, 150);
+}
 
-    for (int i = 0; i <= 255; i++)
-    {
-        ledcWrite(m1e, i);
-        ledcWrite(m2e, i);
-
-        delay(20); // Run motors for 2 seconds
-    }
-
-    delay(500);
-
-    for (int i = 255; i >= 0; i--)
-    {
-        ledcWrite(m1e, i);
-        ledcWrite(m2e, i);
-
-        delay(20); // Run motors for 2 seconds
-    }
-
-    delay(500);
+void loop()
+{
 }
