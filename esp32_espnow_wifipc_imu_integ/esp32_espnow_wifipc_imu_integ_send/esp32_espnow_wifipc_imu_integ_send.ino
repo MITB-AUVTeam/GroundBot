@@ -101,7 +101,7 @@ void loop()
     {
         while (client.connected())
         {
-                mpu.update();
+            mpu.update();
 
             imuData.ax = mpu.getAccX();
             imuData.ay = mpu.getAccY();
@@ -122,20 +122,21 @@ void loop()
             client.print(",");
             client.print(imuData.gz, 3);
             client.println();
+
+            esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&imuData, sizeof(imuData));
+
+            if (result == ESP_OK)
+            {
+                Serial.println("Sent with success");
+            }
+            else
+            {
+                Serial.println("Error sending the data");
+            }
             delay(1000);
+            
         }
         client.stop();
     }
     // Send message via ESP-NOW
-    esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&imuData, sizeof(imuData));
-
-    if (result == ESP_OK)
-    {
-        Serial.println("Sent with success");
-    }
-    else
-    {
-        Serial.println("Error sending the data");
-    }
-    delay(50);
 }
