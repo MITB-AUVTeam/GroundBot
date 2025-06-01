@@ -111,17 +111,17 @@ void loop()
     {
         while (client.connected())
         {
-            client.print(data.ax, 3);
+            client.print(imuData.ax, 3);
             client.print(",");
-            client.print(data.ay, 3);
+            client.print(imuData.ay, 3);
             client.print(",");
-            client.print(data.az, 3);
+            client.print(imuData.az, 3);
             client.print(",");
-            client.print(data.gx, 3);
+            client.print(imuData.gx, 3);
             client.print(",");
-            client.print(data.gy, 3);
+            client.print(imuData.gy, 3);
             client.print(",");
-            client.print(data.gz, 3);
+            client.print(imuData.gz, 3);
             client.println();
             delay(1000);
         }
