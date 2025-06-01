@@ -106,34 +106,18 @@ void loop()
     imuData.gy = mpu.getGyroY();
     imuData.gz = mpu.getGyroZ();
 
-    WiFiClient client = server.available();
-    if (client)
-    {
-        while (client.connected())
-        {
-            imuData.ax = mpu.getAccX();
-            imuData.ay = mpu.getAccY();
-            imuData.az = mpu.getAccZ();
-            imuData.gx = mpu.getGyroX();
-            imuData.gy = mpu.getGyroY();
-            imuData.gz = mpu.getGyroZ();
-
-            client.print(imuData.ax, 3);
-            client.print(",");
-            client.print(imuData.ay, 3);
-            client.print(",");
-            client.print(imuData.az, 3);
-            client.print(",");
-            client.print(imuData.gx, 3);
-            client.print(",");
-            client.print(imuData.gy, 3);
-            client.print(",");
-            client.print(imuData.gz, 3);
-            client.println();
-            delay(1000);
-        }
-        client.stop();
-    }
+    client.print(imuData.ax, 3);
+    client.print(",");
+    client.print(imuData.ay, 3);
+    client.print(",");
+    client.print(imuData.az, 3);
+    client.print(",");
+    client.print(imuData.gx, 3);
+    client.print(",");
+    client.print(imuData.gy, 3);
+    client.print(",");
+    client.print(imuData.gz, 3);
+    client.println();
     // Send message via ESP-NOW
     esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *)&imuData, sizeof(imuData));
 
@@ -145,5 +129,5 @@ void loop()
     {
         Serial.println("Error sending the data");
     }
-    delay(50);
+    delay(1000);
 }
