@@ -6,16 +6,11 @@ int i = 0;
 
 // Motor control 
 int m2i1 = 7;
-int m2i2 = 8;
-int m2e  = 6;
-int m1i1 = 2;
+int m2i2 = 6;
+int m2e  = 9;
+int m1i1 = 5;
 int m1i2 = 4;
-int m1e  = 5;
-
-// PWM control
-
-const int pwmFreq = 500;
-const int pwmResolution = 8;
+int m1e  = 3;
 
 
 
@@ -64,25 +59,24 @@ void loop() {
   Serial.print("Z: "); Serial.println(mpu.getGyroZ());
 
   delay(5*dt);
-
-  i++;
-  if (i<20) {
+ i++;
+  if(i<=255){
   digitalWrite(m2i1, LOW);
   digitalWrite(m2i2, HIGH);
+  analogWrite(m2e, i);
   digitalWrite(m1i1, LOW);
   digitalWrite(m1i2, HIGH);
-  analogWrite(m1e,255);
-  analogWrite(m2e,255);
+  analogWrite(m1e, i);
   }
-  else if (i>=20) {
-  digitalWrite(m2i1, HIGH);
-  digitalWrite(m2i2, LOW);
-  digitalWrite(m1i1, HIGH);
-  digitalWrite(m1i2, LOW);
-  analogWrite(m1e,255);
-  analogWrite(m2e,255);
+  else if (i>255&&i<510){
+    digitalWrite(m2i1, LOW);
+  digitalWrite(m2i2, HIGH);
+  analogWrite(m2e, i-255);
+  digitalWrite(m1i1, LOW);
+  digitalWrite(m1i2, HIGH);
+  analogWrite(m1e, i-255);
   }
-  
-  if(i >= 40) 
-  i = 0;
+  else if (i>=510){
+    i=0;
+  }
 }
