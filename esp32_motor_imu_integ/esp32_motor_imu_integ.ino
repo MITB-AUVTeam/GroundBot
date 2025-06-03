@@ -2,21 +2,22 @@
 #include <MPU6050_light.h>
 
 int dt = 20;
+int i = 0;
 
 // Motor control 
-int m2i1 = 26;
-int m2i2 = 25;
-int m2e  = 27;
-int m1i1 = 12;
-int m1i2 = 14;
-int m1e  = 13;
+int m2i1 = 7;
+int m2i2 = 8;
+int m2e  = 6;
+int m1i1 = 2;
+int m1i2 = 4;
+int m1e  = 5;
 
 // PWM control
-int SDA_pin = 21;
-int SCL_pin = 22;
 
 const int pwmFreq = 500;
 const int pwmResolution = 8;
+
+
 
 MPU6050 mpu(Wire);
 
@@ -24,7 +25,7 @@ void setup() {
   Serial.begin(115200);
   
   // IMU setup
-  Wire.begin(SDA_pin, SCL_pin);
+  Wire.begin();
   Wire.setClock(100000);
 
   byte status = mpu.begin();
@@ -46,17 +47,9 @@ void setup() {
   pinMode(m1i2, OUTPUT);
   pinMode(m2i1, OUTPUT);
   pinMode(m2i2, OUTPUT);
+  pinMode(m1e, OUTPUT);
+  pinMode(m2e, OUTPUT);
 
-  digitalWrite(m2i1, LOW);
-  digitalWrite(m2i2, HIGH);
-  digitalWrite(m1i1, LOW);
-  digitalWrite(m1i2, HIGH);
-
-  ledcAttach(m1e, pwmFreq, pwmResolution);
-  ledcAttach(m2e, pwmFreq, pwmResolution);
-
-  ledcWrite(m1e, 150);
-  ledcWrite(m2e, 150);
 }
 
 void loop() {
@@ -70,5 +63,26 @@ void loop() {
   Serial.print("Y: "); Serial.print(mpu.getGyroY()); Serial.print(" | ");
   Serial.print("Z: "); Serial.println(mpu.getGyroZ());
 
-  delay(8*dt);
+  delay(5*dt);
+
+  i++;
+  if (i<20) {
+  digitalWrite(m2i1, LOW);
+  digitalWrite(m2i2, HIGH);
+  digitalWrite(m1i1, LOW);
+  digitalWrite(m1i2, HIGH);
+  analogWrite(m1e,255);
+  analogWrite(m2e,255);
+  }
+  else if (i>=20) {
+  digitalWrite(m2i1, HIGH);
+  digitalWrite(m2i2, LOW);
+  digitalWrite(m1i1, HIGH);
+  digitalWrite(m1i2, LOW);
+  analogWrite(m1e,255);
+  analogWrite(m2e,255);
+  }
+  
+  if(i >= 40) 
+  i = 0;
 }
