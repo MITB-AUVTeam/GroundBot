@@ -21,7 +21,7 @@ void setup() {
   
   // IMU setup
   Wire.begin();
-  Wire.setClock(100000);
+  Wire.setClock(25000);
 
   byte status = mpu.begin();
   Serial.print("MPU6050 status: ");
