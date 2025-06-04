@@ -1,82 +1,86 @@
-#include <Wire.h>
-#include <MPU6050_light.h>
+#include <Arduino.h>
+#include <ArduinoJson.h>
 
-int dt = 20;
-int i = 0;
-
-// Motor control 
+String input = "";
 int m2i1 = 7;
 int m2i2 = 6;
-int m2e  = 9;
+int m2e = 9;
 int m1i1 = 5;
 int m1i2 = 4;
-int m1e  = 3;
+int m1e = 3;
 
+int i = 0;
 
-
-MPU6050 mpu(Wire);
-
-void setup() {
-  Serial.begin(115200);
-  
-  // IMU setup
-  Wire.begin();
-  Wire.setClock(100000);
-
-  byte status = mpu.begin();
-  Serial.print("MPU6050 status: ");
-  Serial.println(status);
-  while (status != 0) {
-    Serial.println("MPU6050 not connected. Retrying...");
-    delay(50*dt);
-    status = mpu.begin();
-  }
-
-  Serial.println("MPU6050 initialized successfully!");
-  delay(50*dt);
-
-  mpu.calcOffsets(true, true);  
-
-  // motor setup 
+void setup()
+{
+  Serial.begin(9600);
+  Serial.println("Waiting for MPU data...");
   pinMode(m1i1, OUTPUT);
   pinMode(m1i2, OUTPUT);
   pinMode(m2i1, OUTPUT);
   pinMode(m2i2, OUTPUT);
   pinMode(m1e, OUTPUT);
   pinMode(m2e, OUTPUT);
-
 }
 
-void loop() {
-  mpu.update();
+void loop()
+{
+  while (Serial.available()) {
+    char c = Serial.read();
+    if (c == '\n') {
+      StaticJsonDocument<128> doc;
+      DeserializationError error = deserializeJson(doc, input);
+      input = ""; // reset buffer
 
-  Serial.print("Accel X: "); Serial.print(mpu.getAccX()); Serial.print(" | ");
-  Serial.print("Y: "); Serial.print(mpu.getAccY()); Serial.print(" | ");
-  Serial.print("Z: "); Serial.print(mpu.getAccZ()); Serial.print(" || ");
+      if (!error)
+      {
+        float ax = doc["ax"];
+        float ay = doc["ay"];
+        float az = doc["az"];
+        float gx = doc["gx"];
+        float gy = doc["gy"];
+        float gz = doc["gz"];
 
-  Serial.print("Gyro X: "); Serial.print(mpu.getGyroX()); Serial.print(" | ");
-  Serial.print("Y: "); Serial.print(mpu.getGyroY()); Serial.print(" | ");
-  Serial.print("Z: "); Serial.println(mpu.getGyroZ());
-
-  delay(5*dt);
- i++;
-  if(i<=255){
-  digitalWrite(m2i1, LOW);
-  digitalWrite(m2i2, HIGH);
-  analogWrite(m2e, i);
-  digitalWrite(m1i1, LOW);
-  digitalWrite(m1i2, HIGH);
-  analogWrite(m1e, i);
+        Serial.print("AX: ");
+        Serial.print(ax);
+        Serial.print(" AY: ");
+        Serial.print(ay);
+        Serial.print(" AZ: ");
+        Serial.print(az);
+        Serial.print(" | GX: ");
+        Serial.print(gx);
+        Serial.print(" GY: ");
+        Serial.print(gy);
+        Serial.print(" GZ: ");
+        Serial.println(gz);
+      }
+    } else {
+      input += c;
+    }
   }
-  else if (i>255&&i<510){
+
+  // i++;
+  // if (i <= 25500)
+  // {
     digitalWrite(m2i1, LOW);
-  digitalWrite(m2i2, HIGH);
-  analogWrite(m2e, i-255);
-  digitalWrite(m1i1, LOW);
-  digitalWrite(m1i2, HIGH);
-  analogWrite(m1e, i-255);
-  }
-  else if (i>=510){
-    i=0;
-  }
+    digitalWrite(m2i2, HIGH);
+    analogWrite(m2e, 200);
+    digitalWrite(m1i1, LOW);
+    digitalWrite(m1i2, HIGH);
+    analogWrite(m1e, 200);
+  // }
+  // else if (i > 25500 && i < 51000)
+  // {
+  //   digitalWrite(m2i1, LOW);
+  //   digitalWrite(m2i2, HIGH);
+  //   analogWrite(m2e, 255);
+  //   digitalWrite(m1i1, LOW);
+  //   digitalWrite(m1i2, HIGH);
+  //   analogWrite(m1e, 255);
+  // }
+  // else if (i > 51000)
+  // {
+  //   i = 0;
+  // }
+  delay(1);
 }
