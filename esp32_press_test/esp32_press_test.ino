@@ -1,7 +1,7 @@
 #include <HX710AB.h>
 
-#define DOUT 18  // Data pin
-#define SCK  19  // Clock pin
+#define DOUT 15  // Data pin
+#define SCK  2  // Clock pin
 
 HX710B sensor(DOUT, SCK);
 
