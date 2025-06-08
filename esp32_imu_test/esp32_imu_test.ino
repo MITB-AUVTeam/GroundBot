@@ -5,7 +5,7 @@ MPU6050 mpu(Wire);
 
 void setup() {
   Serial.begin(115200);
-  Wire.begin(21, 22);  // SDA, SCL for ESP32
+  Wire.begin();  // SDA, SCL for arduino
 
   byte status = mpu.begin();
   Serial.print("MPU6050 status: ");
